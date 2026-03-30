@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ExamPrep — BSc Nursing Sem 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#0a1628; --green:#16a34a; --green2:#22c55e;
+  --greenbg:#f0fdf4; --text:#111827; --muted:#6b7280;
+  --border:#e5e7eb; --cream:#f9fafb;
+}
+body { background:#fff; color:var(--text); font-family:'Inter',sans-serif; font-size:15px; }
+
+/* HERO */
+.hero { background:var(--navy); padding:48px 24px 52px; position:relative; overflow:hidden; }
+.hero::after {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:450px; height:450px;
+  background:radial-gradient(circle, rgba(22,163,74,0.2) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-inner { max-width:680px; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(22,163,74,0.18); border:1px solid rgba(22,163,74,0.35);
+  color:#4ade80; font-size:0.75rem; font-weight:600;
+  padding:5px 14px; border-radius:20px; letter-spacing:0.5px;
+  margin-bottom:20px; text-transform:uppercase;
+}
+.hero h1 {
+  font-family:'Syne',sans-serif; font-size:clamp(2rem,5vw,3.2rem);
+  font-weight:800; line-height:1.1; color:#fff; margin-bottom:10px;
+}
+.hero h1 .gr { color:#4ade80; }
+.hero p { color:#9ca3af; font-size:0.95rem; line-height:1.7; max-width:500px; margin-bottom:28px; }
+.hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
+.hero-pill {
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12);
+  color:#d1d5db; font-size:0.78rem; padding:6px 14px; border-radius:20px;
+}
+
+/* COUNTDOWN */
+.countdown {
+  background:var(--navy); border-top:1px solid rgba(255,255,255,0.07);
+  padding:14px 24px; display:flex; align-items:center;
+  justify-content:center; gap:14px; flex-wrap:wrap;
+}
+.cd-label { color:#9ca3af; font-size:0.8rem; font-weight:500; }
+.cd-wrap { display:flex; align-items:center; gap:6px; }
+.cd-block {
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px; padding:6px 14px; text-align:center; min-width:56px;
+}
+.cd-block .n { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:#4ade80; display:block; line-height:1; }
+.cd-block .l { font-size:0.58rem; color:#6b7280; text-transform:uppercase; letter-spacing:1px; }
+.cd-col { font-family:'Syne',sans-serif; font-size:1.2rem; color:#4ade80; opacity:0.4; animation:blink 1s step-end infinite; margin-bottom:4px; }
+@keyframes blink { 50%{opacity:0} }
+
+/* TRUST */
+.trust {
+  background:#fff; border-bottom:1px solid var(--border);
+  padding:13px 24px; display:flex; align-items:center;
+  justify-content:center; gap:28px; flex-wrap:wrap;
+}
+.trust-item { display:flex; align-items:center; gap:6px; font-size:0.8rem; color:var(--muted); font-weight:500; }
+.t-icon { width:18px; height:18px; background:var(--greenbg); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; }
+
+/* MAIN */
+.main { max-width:760px; margin:0 auto; padding:36px 20px 80px; }
+.sec-head { display:flex; align-items:baseline; gap:10px; margin-bottom:22px; }
+.sec-head h2 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; }
+.sec-head .meta { font-size:0.78rem; color:var(--muted); background:var(--cream); border:1px solid var(--border); border-radius:20px; padding:2px 10px; }
+
+/* UNIT CARD */
+.unit-card {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:16px; margin-bottom:16px; overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+.unit-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.07); }
+
+.unit-head {
+  display:flex; align-items:center; gap:14px;
+  padding:20px 20px 16px; border-bottom:1px solid var(--border);
+}
+.u-emoji {
+  width:44px; height:44px; background:var(--greenbg);
+  border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-size:1.3rem; flex-shrink:0;
+}
+.u-num { font-size:0.7rem; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; }
+.u-name { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-top:1px; }
+.u-desc { font-size:0.77rem; color:var(--muted); margin-top:2px; }
+
+/* DOC ROW */
+.doc-row { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--border); }
+.doc-item { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.doc-item:first-child { border-right:1px solid var(--border); }
+.doc-type { font-size:0.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+.doc-price { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:800; }
+.doc-price span { font-size:0.72rem; font-weight:400; color:var(--muted); font-family:'Inter',sans-serif; }
+
+.buy-btn {
+  background:var(--navy); color:#fff; border:none;
+  border-radius:8px; font-weight:600; font-size:0.83rem;
+  padding:9px 16px; cursor:pointer; transition:background 0.2s;
+  white-space:nowrap; font-family:'Inter',sans-serif;
+}
+.buy-btn:hover { background:#1e3a5f; }
+.buy-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* BUNDLE */
+.bundle-row {
+  padding:13px 20px; display:flex; align-items:center;
+  justify-content:space-between; background:var(--greenbg); gap:10px;
+}
+.bundle-left { display:flex; align-items:center; gap:8px; font-size:0.83rem; color:#15803d; font-weight:500; }
+.save-tag { background:var(--green); color:#fff; border-radius:4px; padding:2px 7px; font-size:0.68rem; font-weight:700; }
+.bundle-btn {
+  background:var(--green); color:#fff; border:none;
+  border-radius:8px; font-family:'Syne',sans-serif;
+  font-weight:700; font-size:0.85rem; padding:9px 18px;
+  cursor:pointer; transition:background 0.2s; white-space:nowrap;
+}
+.bundle-btn:hover { background:#15803d; }
+.bundle-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* MISSING FILE NOTICE */
+.missing { font-size:0.75rem; color:#f59e0b; background:#fffbeb; border:1px solid #fde68a; border-radius:6px; padding:4px 10px; }
+
+/* MODAL */
+.overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.overlay.on { display:flex; }
+.modal {
+  background:#fff; border-radius:20px; padding:36px 28px;
+  max-width:400px; width:100%; text-align:center;
+  animation:up 0.25s ease;
+  box-shadow:0 24px 80px rgba(0,0,0,0.15);
+}
+@keyframes up { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-icon { font-size:2.8rem; margin-bottom:14px; display:block; }
+.modal h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; }
+.modal p { font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:16px; }
+.item-label {
+  background:var(--greenbg); border:1px solid #bbf7d0;
+  border-radius:8px; padding:10px 14px; font-size:0.83rem;
+  font-weight:600; color:#15803d; margin-bottom:20px;
+}
+.spinner { width:42px; height:42px; border:3px solid #e5e7eb; border-top-color:var(--green); border-radius:50%; animation:spin 0.85s linear infinite; margin:0 auto 16px; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+.dl-list { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.dl-btn {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--greenbg); border:1.5px solid #bbf7d0;
+  border-radius:10px; padding:13px 16px; text-decoration:none;
+  color:#15803d; font-weight:600; font-size:0.86rem; transition:background 0.2s;
+}
+.dl-btn:hover { background:#dcfce7; }
+
+.close-btn {
+  background:none; border:none; color:var(--muted);
+  font-size:0.82rem; cursor:pointer; padding:6px;
+  font-family:'Inter',sans-serif;
+}
+.close-btn:hover { color:var(--text); }
+
+/* FOOTER */
+footer {
+  background:var(--cream); border-top:1px solid var(--border);
+  text-align:center; padding:22px; font-size:0.77rem; color:var(--muted);
+}
+
+@media(max-width:520px){
+  .doc-row { grid-template-columns:1fr; }
+  .doc-item:first-child { border-right:none; border-bottom:1px solid var(--border); }
+  .trust { gap:12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🎓 BSc Nursing · Semester 1 · 2025</div>
+    <h1>Study smarter.<br><span class="gr">Pass with confidence.</span></h1>
+    <p>Premium notes + past papers for all 4 units. Pay via M-Pesa. Download instantly. No account needed.</p>
+    <div class="hero-pills">
+      <div class="hero-pill">📄 From KES 50 per document</div>
+      <div class="hero-pill">⚡ Instant download</div>
+      <div class="hero-pill">🔒 M-Pesa secure</div>
+    </div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <span class="cd-label">⏳ Exams begin in:</span>
+  <div class="cd-wrap">
+    <div class="cd-block"><span class="n" id="cd-d">10</span><span class="l">days</span></div>
+    <span class="cd-col">:</span>
+    <div class="cd-block"><span class="n" id="cd-h">00</span><span class="l">hrs</span></div>
+    <span class="cd-col">:</span>
+    <div class="cd-block"><span class="n" id="cd-m">00</span><span class="l">min</span></div>
+    <span class="cd-col">:</span>
+    <div class="cd-block"><span class="n" id="cd-s">00</span><span class="l">sec</span></div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item"><div class="t-icon">✓</div> M-Pesa via Paystack</div>
+  <div class="trust-item"><div class="t-icon">⚡</div> Instant download</div>
+  <div class="trust-item"><div class="t-icon">📚</div> Exam-focused</div>
+  <div class="trust-item"><div class="t-icon">🔒</div> Secure & private</div>
+</div>
+
+<!-- MATERIALS -->
+<div class="main">
+  <div class="sec-head">
+    <h2>Study Materials</h2>
+    <span class="meta">4 units · 8 documents</span>
+  </div>
+
+  <!-- UNIT 1 — Human Anatomy -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="u-emoji">🫀</div>
+      <div>
+        <div class="u-num">Unit 1</div>
+        <div class="u-name">Human Anatomy</div>
+        <div class="u-desc">Body systems, structures, clinical anatomy & imaging</div>
+      </div>
+    </div>
+    <div class="doc-row">
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📄 Premium Notes</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Human Anatomy — Premium Notes', 50, 'u1_notes')">Buy</button>
+      </div>
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📝 Past Paper</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Human Anatomy — Past Paper', 50, 'u1_paper')">Buy</button>
+      </div>
+    </div>
+    <div class="bundle-row">
+      <div class="bundle-left">Buy <strong>both docs</strong> <span class="save-tag">Save KES 50</span></div>
+      <button class="bundle-btn" onclick="pay('Human Anatomy — Bundle (Notes + Past Paper)', 100, 'u1_bundle')">KES 100 Bundle</button>
+    </div>
+  </div>
+
+  <!-- UNIT 2 — Medical Physiology -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="u-emoji">⚗️</div>
+      <div>
+        <div class="u-num">Unit 2</div>
+        <div class="u-name">Medical Physiology</div>
+        <div class="u-desc">Organ systems, homeostasis, neurophysiology & applied physiology</div>
+      </div>
+    </div>
+    <div class="doc-row">
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📄 Premium Notes</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Medical Physiology — Premium Notes', 50, 'u2_notes')">Buy</button>
+      </div>
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📝 Past Paper</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Medical Physiology — Past Paper', 50, 'u2_paper')">Buy</button>
+      </div>
+    </div>
+    <div class="bundle-row">
+      <div class="bundle-left">Buy <strong>both docs</strong> <span class="save-tag">Save KES 50</span></div>
+      <button class="bundle-btn" onclick="pay('Medical Physiology — Bundle (Notes + Past Paper)', 100, 'u2_bundle')">KES 100 Bundle</button>
+    </div>
+  </div>
+
+  <!-- UNIT 3 — Medical Biochemistry -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="u-emoji">🧬</div>
+      <div>
+        <div class="u-num">Unit 3</div>
+        <div class="u-name">Medical Biochemistry</div>
+        <div class="u-desc">Metabolism, enzymes, molecular biology & clinical correlations</div>
+      </div>
+    </div>
+    <div class="doc-row">
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📄 Premium Notes</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Medical Biochemistry — Premium Notes', 50, 'u3_notes')">Buy</button>
+      </div>
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📝 Past Paper</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Medical Biochemistry — Past Paper', 50, 'u3_paper')">Buy</button>
+      </div>
+    </div>
+    <div class="bundle-row">
+      <div class="bundle-left">Buy <strong>both docs</strong> <span class="save-tag">Save KES 50</span></div>
+      <button class="bundle-btn" onclick="pay('Medical Biochemistry — Bundle (Notes + Past Paper)', 100, 'u3_bundle')">KES 100 Bundle</button>
+    </div>
+  </div>
+
+  <!-- UNIT 4 — Fundamentals of Nursing -->
+  <div class="unit-card">
+    <div class="unit-head">
+      <div class="u-emoji">💉</div>
+      <div>
+        <div class="u-num">Unit 4</div>
+        <div class="u-name">Fundamentals of Nursing</div>
+        <div class="u-desc">Patient care, nursing process, safety & clinical skills</div>
+      </div>
+    </div>
+    <div class="doc-row">
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📄 Premium Notes</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Fundamentals of Nursing — Premium Notes', 50, 'u4_notes')">Buy</button>
+      </div>
+      <div class="doc-item">
+        <div>
+          <div class="doc-type">📝 Past Paper</div>
+          <div class="doc-price">KES 50 <span>/doc</span></div>
+        </div>
+        <button class="buy-btn" onclick="pay('Fundamentals of Nursing — Past Paper', 50, 'u4_paper')">Buy</button>
+      </div>
+    </div>
+    <div class="bundle-row">
+      <div class="bundle-left">Buy <strong>both docs</strong> <span class="save-tag">Save KES 50</span></div>
+      <button class="bundle-btn" onclick="pay('Fundamentals of Nursing — Bundle (Notes + Past Paper)', 100, 'u4_bundle')">KES 100 Bundle</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2025 ExamPrep &nbsp;·&nbsp; BSc Nursing Semester 1 &nbsp;·&nbsp; Payments secured by Paystack & M-Pesa
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+//  ⬇️  PASTE YOUR GOOGLE DRIVE FILE IDs HERE
+//  How to get the ID:
+//  Link: https://drive.google.com/file/d/  1ABCdef123XYZ  /view
+//  ID is the part between /d/ and /view ↑
+// ═══════════════════════════════════════
+const FILES = {
+  u1_notes:  '1YZAPYrNpIGXBDnqUBfuFcB4rICOF5qex',  // Human Anatomy — Summary Notes
+  u1_paper:  '1PLoUOztcEd3u2AIN7ZbFUFghPLDSH1Zd',  // Human Anatomy — Past Paper
+  u2_notes:  '18o6ahkX8lsDo7ZAPnrHbMQqd-t_okT4T',  // Medical Physiology — Summary Notes
+  u2_paper:  '15prcWv3edNa0HEh8t6G3mDau2PBmERqs',  // Medical Physiology — Past Paper
+  u3_notes:  '1ssQ_uEgCga-GwRVN_JsA-XUpJZHZe8Fs',  // Medical Biochemistry — Summary Notes
+  u3_paper:  '1u9vdOFxlhnhBbxvkhq745Qj_ShFL0jQj',  // Medical Biochemistry — Past Paper
+  u4_notes:  '1zxy7-S_gV6JRyzJ-lCNEuwi9mRshyhn5',  // Fundamentals of Nursing — Summary Notes
+  u4_paper:  '1SaRc9K_rO1KzxH-BUJUJp05FDsKgbLsG',  // Fundamentals of Nursing — Past Paper
+};
+
+// ═══════════════════════════════════════
+//  YOUR PAYSTACK PUBLIC KEY
+// ═══════════════════════════════════════
+const PAYSTACK_KEY = 'pk_live_ce4bbdd09a1882d0eeb1aa99666f2e3503c0bf10';
+// ⬆️ Replace pk_test_ with pk_live_ once Paystack approves your account
+
+// ═══════════════════════════════════════
+//  EXAM DATE — change if needed
+// ═══════════════════════════════════════
+const EXAM_DATE = new Date('2025-04-07T08:00:00');
+
+// ── countdown ──
+function tick() {
+  const diff = EXAM_DATE - new Date();
+  if (diff <= 0) {
+    document.querySelector('.countdown').innerHTML =
+      '<span style="color:#4ade80;font-weight:700;">📢 Exams are here — download your materials now!</span>';
+    return;
+  }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+}
+setInterval(tick, 1000); tick();
+
+// ── helpers ──
+function dlUrl(id) {
+  // Opens file in Google Drive viewer — works from any website, no CORS block
+  return `https://drive.google.com/file/d/${id}/view`;
+}
+
+function previewUrl(id) {
+  // Direct download attempt as backup
+  return `https://drive.google.com/uc?export=download&id=${id}`;
+}
+
+function getLinks(key) {
+  if (key.endsWith('_bundle')) {
+    const base = key.replace('_bundle','');
+    const nId = FILES[base+'_notes'];
+    const pId = FILES[base+'_paper'];
+    return [
+      { label: 'Premium Notes', id: nId },
+      { label: 'Past Paper',    id: pId }
+    ];
+  }
+  const label = key.endsWith('_notes') ? 'Premium Notes' : 'Past Paper';
+  return [{ label, id: FILES[key] }];
+}
+
+function hasFile(key) {
+  const links = getLinks(key);
+  return links.every(l => l.id && l.id !== 'PASTE_GOOGLE_DRIVE_ID_HERE');
+}
+
+// ── modal helpers ──
+function showModal(html) {
+  document.getElementById('modal').innerHTML = html;
+  document.getElementById('overlay').classList.add('on');
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('on');
+}
+document.getElementById('overlay').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+
+// ── payment ──
+let currentKey = '';
+
+function pay(label, amount, key) {
+  currentKey = key;
+
+  if (!hasFile(key)) {
+    showModal(`
+      <span class="modal-icon">⚙️</span>
+      <h3>Coming Soon</h3>
+      <p>This document is being uploaded. Check back in a few minutes!</p>
+      <button class="close-btn" onclick="closeModal()">Close</button>`);
+    return;
+  }
+
+  showModal(`
+    <span class="modal-icon">📲</span>
+    <h3>Pay with M-Pesa</h3>
+    <p>You are buying:</p>
+    <div class="item-label">${label}<br><strong>KES ${amount}</strong></div>
+    <p style="font-size:0.82rem;margin-bottom:20px;">Enter your email below (for receipt) then complete M-Pesa payment on the next screen.</p>
+    <input type="email" id="emailInput" placeholder="your@email.com" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;font-size:0.92rem;outline:none;margin-bottom:14px;font-family:'Inter',sans-serif;" oninput="checkEmail()">
+    <button class="bundle-btn" id="proceedBtn" style="width:100%;padding:14px;font-size:1rem;" onclick="startPaystack('${label}',${amount},'${key}')" disabled>
+      Pay KES ${amount} via M-Pesa →
+    </button>
+    <button class="close-btn" style="margin-top:8px;display:block;width:100%;" onclick="closeModal()">Cancel</button>`);
+}
+
+function checkEmail() {
+  const v = document.getElementById('emailInput').value;
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  document.getElementById('proceedBtn').disabled = !ok;
+}
+
+function startPaystack(label, amount, key) {
+  const email = document.getElementById('emailInput').value;
+  showModal(`<div class="spinner"></div><h3>Opening payment…</h3><p>Paystack M-Pesa window is loading.</p>`);
+
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_KEY,
+    email: email,
+    amount: amount * 100, // Paystack uses kobo/cents
+    currency: 'KES',
+    label: label,
+    channels: ['mobile_money'],
+    callback: function(response) {
+      // Payment successful
+      showDownloads(key, label);
+    },
+    onClose: function() {
+      showModal(`
+        <span class="modal-icon">❌</span>
+        <h3>Payment Cancelled</h3>
+        <p>You closed the payment window. Click below to try again.</p>
+        <button class="bundle-btn" style="width:100%;padding:14px;margin-bottom:10px;" onclick="pay('${label}',${amount},'${key}')">Try Again</button>
+        <button class="close-btn" onclick="closeModal()">Cancel</button>`);
+    }
+  });
+  handler.openIframe();
+}
+
+function showDownloads(key, label) {
+  const links = getLinks(key);
+  const linkHtml = links.map(l =>
+    `<div style="margin-bottom:14px;">
+      <div style="font-size:0.78rem;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">📄 ${l.label}</div>
+      <div style="display:flex;gap:8px;">
+        <a class="dl-btn" href="https://drive.google.com/file/d/${l.id}/view" target="_blank" style="flex:1;justify-content:center;">
+          👁️ Open File
+        </a>
+        <a class="dl-btn" href="https://drive.google.com/uc?export=download&id=${l.id}" target="_blank" style="flex:1;justify-content:center;background:#dcfce7;">
+          ⬇️ Download
+        </a>
+      </div>
+    </div>`
+  ).join('');
+
+  showModal(`
+    <span class="modal-icon">🎉</span>
+    <h3>Payment Confirmed!</h3>
+    <p>Your material${links.length > 1 ? 's are' : ' is'} ready!</p>
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:#1d4ed8;text-align:left;">
+      💡 <strong>How to download:</strong> Tap <em>Open File</em> → inside Google Drive tap the <strong>3 dots menu (⋮)</strong> → tap <strong>Download</strong>
+    </div>
+    <div style="text-align:left">${linkHtml}</div>
+    <button class="close-btn" style="margin-top:8px;display:block;width:100%;" onclick="closeModal()">Close</button>`);
+}
+</script>
+</body>
+</html>
